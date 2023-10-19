@@ -9,10 +9,8 @@ env:
   LOCATION: westeurope
   TEMPLATE-FILE: .azure/bicep/webapp.bicep
   SUBSCRIPTION-ID: ${{ secrets.subscriptionId }}
-on:
-  push:
-    branches: [ "main" ]
-  workflow_dispatch:
+on: [workflow_dispatch]
+# on: [push, workflow_dispatch]
 jobs:
   build:
     runs-on: ubuntu-latest
