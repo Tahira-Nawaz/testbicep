@@ -1,6 +1,8 @@
 name: Build and test 
 # on: [workflow_dispatch]
 on: [push, workflow_dispatch]
+
+#Environment variables https://docs.github.com/en/actions/learn-github-actions/environment-variables
 env:
   WEBAPP-NAME: tahira1234500nawaz00    # set this to the name of your Azure Web App
   RESOURCE-GROUP: Tahira1-rg-test
@@ -36,7 +38,7 @@ jobs:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
 
-          # upload the bicep template as artifacts for next job
+      # upload the bicep template as artifacts for next job
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
@@ -72,6 +74,7 @@ jobs:
         uses: Azure/cli@1.0.4
         with:
           inlineScript: az group create -n ${{ env.RESOURCE-GROUP }} -l 'West Europe'    
+  
   # Deploy Azure WebApp using Bicep file
       - name: deploy
         uses: azure/arm-deploy@v1
@@ -81,6 +84,7 @@ jobs:
           template: bicep-template/webapp.bicep
           parameters: 'webAppName=${{ env.WEBAPP_NAME }} location=${{ env.LOCATION }}'
           failOnStdErr: false   
+          
   # publish content to Azure Web App
       - name: Publish Website to WebApp
         id: deploy-to-webapp
