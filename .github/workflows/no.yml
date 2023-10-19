@@ -1,9 +1,9 @@
-name: Build and deploy 
+name: Build and test 
 # on: [workflow_dispatch]
 on: [push, workflow_dispatch]
 env:
   WEBAPP-NAME: tahira1234500nawaz00    # set this to the name of your Azure Web App
-  RESOURCE-GROUP: Tahira-rg-test
+  RESOURCE-GROUP: Tahira1-rg-test
   LOCATION: westeurope
   TEMPLATE-FILE: .azure/bicep/webapp.bicep
   SUBSCRIPTION-ID: ${{ secrets.subscriptionId }}
@@ -48,7 +48,6 @@ jobs:
     needs: buildandtest
     environment:
       name: 'Development'
-      # url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
       - name: Download artifact from build job
