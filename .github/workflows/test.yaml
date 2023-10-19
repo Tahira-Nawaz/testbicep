@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
 
       - name: Set up .NET 
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
           include-prerelease: true  
@@ -81,7 +81,7 @@ jobs:
         with:
           subscriptionId: ${{ env.SUBSCRIPTION-ID }}
           resourceGroupName: ${{ env.RESOURCE-GROUP }}
-          template: ${{ env.TEMPLATE-FILE }}
+          template: bicep-template/webapp.bicep
           parameters: 'webAppName=${{ env.AZURE_WEBAPP_NAME }} location=${{ env.LOCATION }}'
           failOnStdErr: false   
   # publish content to Azure Web App
@@ -90,5 +90,4 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          package: .net-app
