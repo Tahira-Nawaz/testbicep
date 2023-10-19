@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up .NET 
+      - name: Setup .NET 
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
@@ -50,7 +50,7 @@ jobs:
     needs: build
     environment:
       name: 'Development'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      # url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
       - name: Download artifact from build job
@@ -82,10 +82,10 @@ jobs:
           subscriptionId: ${{ env.SUBSCRIPTION-ID }}
           resourceGroupName: ${{ env.RESOURCE-GROUP }}
           template: bicep-template/webapp.bicep
-          parameters: 'webAppName=${{ env.AZURE_WEBAPP_NAME }} location=${{ env.LOCATION }}'
+          parameters: 'webAppName=${{ env.WEBAPP_NAME }} location=${{ env.LOCATION }}'
           failOnStdErr: false   
   # publish content to Azure Web App
-      - name: Deploy to Azure Web App
+      - name: Publish Website to WebApp
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
