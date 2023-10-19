@@ -1,16 +1,15 @@
-
 name: Build and deploy 
-
+on: [workflow_dispatch]
+# on: [push, workflow_dispatch]
 env:
-  AZURE_WEBAPP_NAME: tahira1234500nawaz00    # set this to the name of your Azure Web App
+  WEBAPP-NAME: tahira1234500nawaz00    # set this to the name of your Azure Web App
   AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '6.0.x'                # set this to the .NET Core version to use
   RESOURCE-GROUP: Tahira-rg-test
   LOCATION: westeurope
   TEMPLATE-FILE: .azure/bicep/webapp.bicep
   SUBSCRIPTION-ID: ${{ secrets.subscriptionId }}
-on: [workflow_dispatch]
-# on: [push, workflow_dispatch]
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,21 +17,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up .NET Core
+      - name: Set up .NET 
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
-
-      # - name: Set up dependency caching for faster builds
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: ~/.nuget/packages
-      #     key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-nuget-
+          include-prerelease: true  
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
+
+      - name: Test with dotnet
+        run: dotnet test  --configuration Release
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
@@ -55,7 +50,7 @@ jobs:
     needs: build
     environment:
       name: 'Development'
-      # url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
       - name: Download artifact from build job
@@ -63,7 +58,13 @@ jobs:
         with:
           name: .net-app
           path: .net-app
-      
+ #Download the bicep templates from previous job
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: bicep-template
+          path: bicep-template
+        
   # Login in your azure subscription using a service principal (credentials stored as GitHub Secret in repo)
       - name: Azure Login
         uses: azure/login@v1
@@ -90,4 +91,4 @@ jobs:
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-          package: .net-app
+          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
