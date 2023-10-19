@@ -1,14 +1,14 @@
-name: Build and test 
+name: eShopOnWeb Build and Test
 # on: [workflow_dispatch]
 on: [push, workflow_dispatch]
 
 #Environment variables https://docs.github.com/en/actions/learn-github-actions/environment-variables
 env:
-  RESOURCE-GROUP: Tahira1-test-rg
+  RESOURCE-GROUP: Tahira1s-test-rg
   LOCATION: westeurope
   TEMPLATE-FILE: .azure/bicep/webapp.bicep
   SUBSCRIPTION-ID: ${{ secrets.subscriptionId }}
-  WEBAPP-NAME: az400-webapp21-tahira00test
+  WEBAPP-NAME: az400-fdwebapp21-tahira00test
 
 jobs:
   buildandtest:
