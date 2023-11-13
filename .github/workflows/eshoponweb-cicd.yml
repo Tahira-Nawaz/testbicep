@@ -14,6 +14,7 @@ env:
 
 jobs:
   #Build, test and publish .net web project in repository
+  
   buildandtest:
     runs-on: ubuntu-latest
     steps:
@@ -73,7 +74,7 @@ jobs:
 
   deploy: 
     runs-on: ubuntu-latest
-    needs: buildandtest
+    needs: createwebapp
     # environment:
     #   name: 'Development'
     steps:
