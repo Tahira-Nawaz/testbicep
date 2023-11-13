@@ -10,7 +10,7 @@ env:
   LOCATION: westeurope
   TEMPLATE-FILE: .azure/bicep/webapp.bicep
   SUBSCRIPTION-ID: ${{ secrets.subscriptionId }}
-  WEBAPP-NAME: az400-webapp-tahira00test
+  WEBAPP-NAME: az400-webapp-tahira00test1
 
 jobs:
   #Build, test and publish .net web project in repository
@@ -87,7 +87,10 @@ jobs:
         template: bicep-template/webapp.bicep
         parameters: 'webAppName=${{ env.WEBAPP-NAME }} location=${{ env.LOCATION }}'
         failOnStdErr: false   
-    
+    - name: Azure cli web app check
+      uses: Azure/cli@1.0.4
+      with:
+         inlineScript: az webapp list --resource-group ${{ env.RESOURCE-GROUP }}
     # Publish website to Azure App Service (WebApp)
     - name: Publish Website to WebApp
       uses: Azure/webapps-deploy@v2
