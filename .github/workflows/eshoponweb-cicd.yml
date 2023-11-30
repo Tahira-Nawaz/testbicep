@@ -8,10 +8,9 @@ on: [push, workflow_dispatch]
 env:
   RESOURCE-GROUP: webapp-tahira-rg
   LOCATION: ukwest
-  number: "00"
   TEMPLATE-FILE: .azure/bicep/webapp.bicep
   SUBSCRIPTION-ID: ${{ secrets.subscriptionId }}
-  WEBAPP-NAME: webapp-tahira-${number}
+  WEBAPP-NAME: testwebapp-tahira-00
 
 jobs:
   #Build, test and publish .net web project in repository
