@@ -11,7 +11,7 @@ env:
   number: "00"
   TEMPLATE-FILE: .azure/bicep/webapp.bicep
   SUBSCRIPTION-ID: ${{ env.secrets.subscriptionId }}
-  WEBAPP-NAME: webapp-tahira-${{env.LOCATION}}-${{env.NO}}
+  WEBAPP-NAME: webapp-tahira-${{env.LOCATION}}-${{env.number}}
 
 jobs:
   #Build, test and publish .net web project in repository
