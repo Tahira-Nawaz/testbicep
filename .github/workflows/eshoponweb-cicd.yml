@@ -8,7 +8,7 @@ on: [push, workflow_dispatch]
 env:
   RESOURCE-GROUP: webapp-tahira-rg
   LOCATION: ukwest
-  NO: 00
+  number: "00"
   TEMPLATE-FILE: .azure/bicep/webapp.bicep
   SUBSCRIPTION-ID: ${{ env.secrets.subscriptionId }}
   WEBAPP-NAME: webapp-tahira-${{env.LOCATION}}-${{env.NO}}
