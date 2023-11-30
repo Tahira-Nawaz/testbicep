@@ -10,7 +10,7 @@ env:
   LOCATION: ukwest
   number: "00"
   TEMPLATE-FILE: .azure/bicep/webapp.bicep
-  SUBSCRIPTION-ID: ${{ env.secrets.subscriptionId }}
+  SUBSCRIPTION-ID: ${{ secrets.subscriptionId }}
   WEBAPP-NAME: webapp-tahira-${{env.LOCATION}}-${{env.number}}
 
 jobs:
